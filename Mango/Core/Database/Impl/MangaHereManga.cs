@@ -15,6 +15,8 @@ namespace Mango.Core.Database.Impl
 {
     public class MangaHereManga : Manga
     {
+        private const string Mangaurl = "http://www.mangahere.com/manga/";
+
         private int page = 1;
         private int chapter = 1;
         private int volume = 0;
@@ -31,15 +33,15 @@ namespace Mango.Core.Database.Impl
                 string vstr = "v" + (volume < 10 ? "0" + volume : "" + volume);
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + vstr + "/" + cstr + "/" + page + ".html";
-                else url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + vstr + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/";
             }
             else
             {
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + cstr + "/" + page + ".html";
-                else url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/";
             }
 
             string result;
@@ -178,15 +180,15 @@ namespace Mango.Core.Database.Impl
                 string vstr = "v" + (volume < 10 ? "0" + volume : "" + volume);
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + vstr + "/" + cstr + "/" + page + ".html";
-                else url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + vstr + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/";
             }
             else
             {
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + cstr + "/" + page + ".html";
-                else url = "http://www.mangahere.com/manga/" + Title.ToLower().Replace(' ', '_') + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/";
             }
 
             string result;
@@ -357,7 +359,7 @@ namespace Mango.Core.Database.Impl
                     catch (Exception e)
                     {
                         if (e.ToString().Contains("(404) Not Found")) return null;
-                        System.Windows.MessageBox.Show("Title: " + Title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
+                        //System.Windows.MessageBox.Show("Title: " + Title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
                     }
                 }
                 bImage.CacheOption = BitmapCacheOption.OnLoad;
@@ -402,7 +404,7 @@ namespace Mango.Core.Database.Impl
                 catch (Exception e)
                 {
                     if (e.ToString().Contains("(404) Not Found")) return null;
-                    System.Windows.MessageBox.Show("Title: " + title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
+                    //System.Windows.MessageBox.Show("Title: " + title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
                 }
             }
 
@@ -476,7 +478,6 @@ namespace Mango.Core.Database.Impl
                 {
                     //TODO break?
                     continue;
-                    //System.Windows.MessageBox.Show("Error finding image!", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 }
                 try
                 {
@@ -504,7 +505,7 @@ namespace Mango.Core.Database.Impl
             get { return File.Exists("mangas/" + MakeValidFileName(Title) + "/completed.dat"); }
         }
 
-        public override MangaDatabase DatabaseParent
+        public override IMangaDatabase DatabaseParent
         {
             get { return db; }
         }

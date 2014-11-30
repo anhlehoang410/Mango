@@ -34,23 +34,37 @@
     <Controls:MetroContentControl>
         <TabControl>
             <TabItem Header="Local Mango">
-                <Grid Name="Content">
-                    
-                </Grid>
+                <StackPanel Orientation="Vertical">
+                    <Grid Height="25" Panel.ZIndex="3">
+                        <Grid.Effect>
+                            <DropShadowEffect Direction="270" Opacity="0.2" ShadowDepth="3" />
+                        </Grid.Effect>
+                        <Border Background="White" />
+                    </Grid>
+                    <Grid Name="Content" Background="#F9F9F9" Height="510">
+
+                    </Grid>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Search">
-                <Grid>
-                    <Grid MinHeight="30" VerticalAlignment="Top" Background="Gray" Margin="-2,0,0,0">
-                        <TextBox HorizontalAlignment="Left" Margin="4" Width="200" Name="SearchBox" />
-                        <Button Name="SearchBtn" IsDefault="True" Width="80" Content="Search" Margin="209,4,0,4" HorizontalAlignment="Left" Click="SearchBtn_Click" />
+                <StackPanel Orientation="Vertical">
+                    <Grid MinHeight="60" Panel.ZIndex="3">
+                        <Grid.Effect>
+                            <DropShadowEffect Direction="270" Opacity="0.2" ShadowDepth="3" />
+                        </Grid.Effect>
+                        <Border Background="White" />
+                        <TextBox Height="30" HorizontalAlignment="Left" Margin="4" Width="200" Name="SearchBox" />
+                        <Button Height="30" Name="SearchBtn" IsDefault="True" Width="80" Content="Search" Margin="209,4,0,4" HorizontalAlignment="Left" Click="SearchBtn_Click" />
                     </Grid>
-                    <ScrollViewer Name="ScrollView" Margin="0,39,0,0">
-                        <UniformGrid  Name="Tiles" Columns="4">
+                    <Grid Background="#F9F9F9">
+                        <Controls:ProgressRing Canvas.ZIndex="3" Name="Loader" IsActive="True" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ScrollViewer Name="ScrollView" Background="#F9F9F9" VerticalAlignment="Bottom" Height="462" Margin="0,0,0,-4">
+                            <UniformGrid  Name="Tiles" Columns="4">
 
-                        </UniformGrid>
-                    </ScrollViewer>
-                    <Controls:ProgressRing Canvas.ZIndex="3" Name="Loader" IsActive="True" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Grid>
+                            </UniformGrid>
+                        </ScrollViewer>
+                    </Grid>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </Controls:MetroContentControl>

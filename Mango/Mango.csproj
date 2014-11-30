@@ -36,9 +36,17 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.12.1.0\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -69,10 +77,12 @@
     <Compile Include="Core\GUI\NoMangaFound.xaml.cs">
       <DependentUpon>NoMangaFound.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\Model\Chapter.cs" />
+    <Compile Include="Core\Updater.cs" />
     <Compile Include="Core\WrongNet.xaml.cs">
       <DependentUpon>WrongNet.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reader.xaml.cs">
+    <Compile Include="GUI\Reader.xaml.cs">
       <DependentUpon>Reader.xaml</DependentUpon>
     </Compile>
     <Page Include="Core\GUI\MangaBox.xaml">
@@ -91,7 +101,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="GUI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -111,11 +121,11 @@
     <Compile Include="Core\GUI\FragmentHelper.cs" />
     <Compile Include="Core\Model\Manga.cs" />
     <Compile Include="Core\Model\MangaList.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="GUI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Reader.xaml">
+    <Page Include="GUI\Reader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,6 +153,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="program.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -168,6 +179,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\wrongversion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Youhavegottobesquiddingme.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="updater.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

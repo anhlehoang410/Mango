@@ -7,14 +7,14 @@ using Mango.Core.Model;
 
 namespace Mango.Core.Database
 {
-    public interface MangaDatabase
+    public interface IMangaDatabase
     {
         string Name
         {
             get;
         }
 
-        string SiteURL
+        string SiteUrl
         {
             get;
         }

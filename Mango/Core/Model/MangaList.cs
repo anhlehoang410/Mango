@@ -27,16 +27,13 @@ namespace Mango.Core.Model
                     if (mType == null)
                         continue;
 
-                    Manga m = (Manga)Activator.CreateInstance(mType, new object[] { });
+                    var m = (Manga)Activator.CreateInstance(mType, new object[] { });
                     m.Title = data[0];
                     m.CurrentPage = int.Parse(data[1]);
                     m.CurrentChapter = int.Parse(data[2]);
                     if (!m.IsDownloadComplete)
                     {
-                        new Thread(new ThreadStart(delegate
-                        {
-                            m.Download();
-                        })).Start();
+                        new Thread(m.Download).Start();
                     }
 
                     List.Add(m);
@@ -46,11 +43,7 @@ namespace Mango.Core.Model
 
         public static void Save()
         {
-            List<string> lines = new List<string>();
-            foreach (Manga m in List)
-            {
-                lines.Add(m.Title + ":" + m.CurrentPage + ":" + m.CurrentChapter + ":" + m.GetType().ToString() + ":" + (m.DatabaseParent != null ? m.DatabaseParent.GetType().ToString() : " "));
-            }
+            var lines = List.Select(m => m.Title + ":" + m.CurrentPage + ":" + m.CurrentChapter + ":" + m.GetType().ToString() + ":" + (m.DatabaseParent != null ? m.DatabaseParent.GetType().ToString() : " ")).ToList();
             if (!Directory.Exists("mangas"))
                 Directory.CreateDirectory("mangas");
 

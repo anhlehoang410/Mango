@@ -10,9 +10,12 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid Name="Content">
-        <Grid Height="105">
-            <Label Content="No Mango Found!" Style="{DynamicResource Oxygen}" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" />
-            <Label Content="I couldn't find the mango you wanted...try a different search term" Style="{DynamicResource Oxygen}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Grid>
+            <Grid>
+                <Label Content="No Manga Found!" Style="{DynamicResource Oxygen}" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" Margin="0,164,0,0" />
+                <Label Content="I couldn't find the manga you wanted...try a different search term" Style="{DynamicResource Oxygen}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+            <Image Source="/Mango;component/Resources/Youhavegottobesquiddingme.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="180" Margin="258,0,259,-5" />
         </Grid>
     </Grid>
 </Window>

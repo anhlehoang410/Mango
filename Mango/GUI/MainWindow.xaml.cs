@@ -34,7 +34,7 @@ namespace Mango
             public Mango.Core.Model.Manga manga;
             public MangaBox box;
         }
-        private static readonly MangaDatabase[] DATABASE = new MangaDatabase[] {
+        private static readonly IMangaDatabase[] DATABASE = new IMangaDatabase[] {
             new MangaReaderDatabase(),
             new MangaHereDatabase()
         };
@@ -96,9 +96,13 @@ namespace Mango
             }
             else if (!File.Exists("mangas/u2"))
             {
-
                 await this.ShowMessageAsync("What's New?", "* Added MangaHere to search\n* Fixed buttons on reader page\n", MessageDialogStyle.Affirmative);
                 File.WriteAllBytes("mangas/u2", new byte[] { 1 });
+            }
+            else if (!File.Exists("mangas/u3"))
+            {
+                await this.ShowMessageAsync("What's New?", "* MangaHere search disabled (needs to be fixed)\n* Updated UI\n", MessageDialogStyle.Affirmative);
+                File.WriteAllBytes("mangas/u3", new byte[] { 1 });
             }
         }
 
@@ -198,7 +202,7 @@ namespace Mango
 
             List<Manga> mangas = new List<Manga>();
             List<Manga> lastResult = null;
-            foreach (MangaDatabase db in DATABASE)
+            foreach (IMangaDatabase db in DATABASE)
             {
                 if (!searching)
                     break;

@@ -10,7 +10,7 @@ namespace Mango.Core.Model
 {
     public abstract class Manga
     {
-        private Dictionary<string, object> extras = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _extras = new Dictionary<string, object>();
         public abstract bool HasNext();
 
         public abstract bool HasPrevious();
@@ -36,25 +36,23 @@ namespace Mango.Core.Model
 
         public object GetExtraData(string key)
         {
-            if (!HasExtraData(key))
-                return null;
-            return extras[key];
+            return !HasExtraData(key) ? null : _extras[key];
         }
 
         public bool HasExtraData(string key)
         {
-            return extras.ContainsKey(key);
+            return _extras.ContainsKey(key);
         }
 
         public void SetExtraData(string key, object obj)
         {
             if (HasExtraData(key))
-                extras[key] = obj;
+                _extras[key] = obj;
             else
-                extras.Add(key, obj);
+                _extras.Add(key, obj);
         }
 
-        public abstract MangaDatabase DatabaseParent
+        public abstract IMangaDatabase DatabaseParent
         {
             get;
         }

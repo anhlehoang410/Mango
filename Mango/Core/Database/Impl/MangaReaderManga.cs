@@ -14,10 +14,10 @@ namespace Mango.Core.Database.Impl
 {
     public class MangaReaderManga : Manga
     {
-        internal MangaDatabase db;
+        internal IMangaDatabase db;
         private int Page = 1;
         private int Chapter = 1;
-        public override MangaDatabase DatabaseParent
+        public override IMangaDatabase DatabaseParent
         {
             get { return db; }
             
@@ -189,7 +189,7 @@ namespace Mango.Core.Database.Impl
                     catch (Exception e)
                     {
                         if (e.ToString().Contains("(404) Not Found")) return null;
-                        System.Windows.MessageBox.Show("Title: " + Title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
+                        //System.Windows.MessageBox.Show("Title: " + Title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
                     }
                 }
                 bImage.CacheOption = BitmapCacheOption.OnLoad;
@@ -234,7 +234,7 @@ namespace Mango.Core.Database.Impl
                 catch (Exception e)
                 {
                     if (e.ToString().Contains("(404) Not Found")) return null;
-                    System.Windows.MessageBox.Show("Title: " + title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
+                    //System.Windows.MessageBox.Show("Title: " + title + "\n" + "URL: " + ImageURL + "\n" + e.ToString());
                 }
             }
 
@@ -480,7 +480,7 @@ namespace Mango.Core.Database.Impl
                             byteData = client.DownloadData(url);
                     }
                 }
-                catch
+                catch (Exception e)
                 {
                     System.Windows.MessageBox.Show("Error downloading found image!", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                     return;

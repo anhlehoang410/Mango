@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Mango.Core.Database.Impl
 {
-    public class MangaHereDatabase : MangaDatabase
+    public class MangaHereDatabase : IMangaDatabase
     {
 
         public string Name
@@ -17,7 +17,7 @@ namespace Mango.Core.Database.Impl
             get { return "MangaHere"; }
         }
 
-        public string SiteURL
+        public string SiteUrl
         {
             get { return "http://mangahere.com/"; }
         }
@@ -168,6 +168,8 @@ namespace Mango.Core.Database.Impl
                         request.ContentType = "application/x-www-form-urlencoded";
                         ((HttpWebRequest)request).Referer = url;
                         ((HttpWebRequest)request).Accept = "application/json, text/javascript, */*; q=0.01";
+                        ((HttpWebRequest)request).Host = "www.mangahere.co";
+                        ((HttpWebRequest)request).Headers.Add("Origin", "http://www.mangahere.co");
 
                         byte[] encoded = Encoding.ASCII.GetBytes(post);
                         request.ContentLength = encoded.Length;
@@ -192,7 +194,7 @@ namespace Mango.Core.Database.Impl
 
                         rs.Close();
                         string json = Encoding.ASCII.GetString(finalData);
-                        if (String.IsNullOrWhiteSpace(json))
+                        if (String.IsNullOrWhiteSpace(json) || json == "[]")
                         {
                             MangaHereManga mmanga = new MangaHereManga();
                             mmanga.Title = title;

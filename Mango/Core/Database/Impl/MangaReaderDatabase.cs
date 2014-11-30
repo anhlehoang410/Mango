@@ -7,7 +7,7 @@ using System.Net;
 
 namespace Mango.Core.Database.Impl
 {
-    public class MangaReaderDatabase : MangaDatabase
+    public class MangaReaderDatabase : IMangaDatabase
     {
         public string Name
         {
@@ -17,7 +17,7 @@ namespace Mango.Core.Database.Impl
             }
         }
 
-        public string SiteURL
+        public string SiteUrl
         {
             get
             {

@@ -38,7 +38,7 @@ namespace Mango
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (manga.IsDownloaded || manga.IsDownloadComplete)
-                this.downloadSetting.IsChecked = true;
+                this.DownloadSetting.IsChecked = true;
 
             this.KeyDown += Reader_KeyDown;
             this.KeyUp += Reader_KeyUp;
@@ -236,7 +236,7 @@ namespace Mango
 
         private void downloadSetting_Click(object sender, RoutedEventArgs e)
         {
-            if ((bool)downloadSetting.IsChecked)
+            if ((bool)DownloadSetting.IsChecked)
             {
                 DownloadManga();
             }
@@ -267,10 +267,7 @@ namespace Mango
             MangaList.List.Add(manga);
             MangaList.Save();
             await this.ShowMessageAsync("Mango", manga.Title + " will download in the background while you read. If you close Mango, the download will pause and resume the next time you start reading.", MessageDialogStyle.Affirmative);
-            downloadThread = new Thread(new ThreadStart(delegate
-            {
-                manga.Download();
-            }));
+            downloadThread = new Thread(() => manga.Download());
             downloadThread.Start();
         }
     }

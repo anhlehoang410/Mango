@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Mango.Core.Model;
+using System.Runtime.CompilerServices;
 
 namespace Mango
 {
@@ -42,6 +43,7 @@ namespace Mango
             }
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -52,10 +54,16 @@ namespace Mango
             }
             else
             {
-                MangaList.Load();
-                Window = new Mango.MainWindow();
-                Window.Show();
+                LoadMainWindow();
             }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public void LoadMainWindow()
+        {
+            MangaList.Load();
+            Window = new Mango.MainWindow();
+            Window.Show();
         }
 
 
