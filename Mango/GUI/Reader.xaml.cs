@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Mango.Core.Model;
-using System.Threading;
 using MahApps.Metro.Controls.Dialogs;
+using Mango.Core.Model;
 
-namespace Mango
+namespace Mango.GUI
 {
     /// <summary>
     /// Interaction logic for Reader.xaml
@@ -27,7 +18,6 @@ namespace Mango
         {
             this.manga = manga;
             InitializeComponent();
-            PageContent.Visibility = System.Windows.Visibility.Hidden;
             this.Closed += delegate
             {
                 MangaList.Save();
@@ -46,10 +36,6 @@ namespace Mango
             PageContent.KeyDown += PageContent_KeyDown;
 
             this.WindowState = System.Windows.WindowState.Maximized;
-            //NextBtn.IsEnabled = false;
-            //PreviousBtn.IsEnabled = false;
-            //NextBtn.Content = "Loading..";
-            //PreviousBtn.Content = "Loading..";
             new Thread(new ThreadStart(Setup)).Start();
         }
 
@@ -129,7 +115,7 @@ namespace Mango
                 Scroller.ScrollToVerticalOffset(0);
                 Scroller.ScrollToHorizontalOffset(0);
                 this.Title = GetTitle();
-                PageContent.Visibility = System.Windows.Visibility.Visible;
+                //PageContent.Visibility = System.Windows.Visibility.Visible; dont hide the view
                 Loader.Visibility = System.Windows.Visibility.Hidden;
             }));
 
@@ -181,11 +167,11 @@ namespace Mango
         private async void Next()
         {
             Task<bool> result = manga.Next();
-            Loader.Visibility = System.Windows.Visibility.Visible;
+            Loader.Visibility = Visibility.Visible;
             await result;
             if (result.Result)
             {
-                PageContent.Visibility = System.Windows.Visibility.Hidden;
+                //PageContent.Visibility = Visibility.Hidden; dont hide the view
                 //NextBtn.IsEnabled = false;
                 //PreviousBtn.IsEnabled = false;
                 //NextBtn.Content = "Loading..";
@@ -194,18 +180,18 @@ namespace Mango
             }
             else
             {
-                Loader.Visibility = System.Windows.Visibility.Hidden;
+                Loader.Visibility = Visibility.Hidden;
             }
         }
 
         private async void Previous()
         {
             Task<bool> result = manga.Previous();
-            Loader.Visibility = System.Windows.Visibility.Visible;
+            Loader.Visibility = Visibility.Visible;
             await result;
             if (result.Result)
             {
-                PageContent.Visibility = System.Windows.Visibility.Hidden;
+                //PageContent.Visibility = System.Windows.Visibility.Hidden; dont hide the view
                 //NextBtn.IsEnabled = false;
                 //PreviousBtn.IsEnabled = false;
                 //NextBtn.Content = "Loading..";

@@ -41,6 +41,9 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.12.1.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -74,10 +77,10 @@
     </ApplicationDefinition>
     <Compile Include="Core\Database\Impl\MangaHereDatabase.cs" />
     <Compile Include="Core\Database\Impl\MangaHereManga.cs" />
+    <Compile Include="Core\Database\MangaReaderWriter.cs" />
     <Compile Include="Core\GUI\NoMangaFound.xaml.cs">
       <DependentUpon>NoMangaFound.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Model\Chapter.cs" />
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Core\WrongNet.xaml.cs">
       <DependentUpon>WrongNet.xaml</DependentUpon>

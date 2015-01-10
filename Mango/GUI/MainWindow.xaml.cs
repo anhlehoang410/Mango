@@ -1,32 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Mango.Core.GUI;
 using MahApps.Metro.Controls;
-using Mango.Core.Model;
 using Mango.Core.Database;
 using Mango.Core.Database.Impl;
-using System.Threading;
-using MahApps.Metro.Controls.Dialogs;
-using System.IO;
-using System.Windows.Controls.Primitives;
+using Mango.Core.GUI;
+using Mango.Core.Model;
 
-namespace Mango
+namespace Mango.GUI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow
     {
         public class Request
@@ -55,7 +42,6 @@ namespace Mango
         UniformGrid grid;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            AlertUpdates();
             if (MangaList.List.Count == 0)
             {
                 Content.Children.Add(FragmentHelper.ExtractUI<NoManga>());
@@ -84,38 +70,18 @@ namespace Mango
             }
         }
 
-        private async void AlertUpdates()
-        {
-            if (!Directory.Exists("mangas"))
-                Directory.CreateDirectory("mangas");
-
-            if (!File.Exists("mangas/u1"))
-            {
-                await this.ShowMessageAsync("What's New?", "* Redesigned Main Menu\n* Added new back and foward buttons in Reader\n* Page up, Page down, Home, and End buttons now function as foward and backwards", MessageDialogStyle.Affirmative);
-                File.WriteAllBytes("mangas/u1", new byte[] { 1 });
-            }
-            else if (!File.Exists("mangas/u2"))
-            {
-                await this.ShowMessageAsync("What's New?", "* Added MangaHere to search\n* Fixed buttons on reader page\n", MessageDialogStyle.Affirmative);
-                File.WriteAllBytes("mangas/u2", new byte[] { 1 });
-            }
-            else if (!File.Exists("mangas/u3"))
-            {
-                await this.ShowMessageAsync("What's New?", "* MangaHere search disabled (needs to be fixed)\n* Updated UI\n", MessageDialogStyle.Affirmative);
-                File.WriteAllBytes("mangas/u3", new byte[] { 1 });
-            }
-        }
-
         private void AddMangaTile(Manga m)
         {
             MangaBox box = new MangaBox();
             box.MangaTitle = m.Title;
             box.DatabaseText = (m.DatabaseParent == null ? "Local" : m.DatabaseParent.Name);
+            box.IsDownloading = m.IsDownloading;
 
             Grid grid = FragmentHelper.ExtractUI<Grid>(box);
             Tile tile = new Tile();
             tile.Width = 225;
-            tile.Height = 180;
+            tile.Height = box.Height;
+            tile.Background = grid.Background;
             tile.Content = grid;
             tile.Click += delegate
             {
@@ -129,13 +95,6 @@ namespace Mango
             request.manga = m;
             request.box = box;
             this.request.Add(request);
-        }
-
-        private async void TestDownload()
-        {
-            MessageBox.Show("Started test download");
-            List<Manga> search = await new Mango.Core.Database.Impl.MangaReaderDatabase().Search("madoka");
-            search[0].Download();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

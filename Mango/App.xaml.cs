@@ -5,8 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Mango.Core.Database;
 using Mango.Core.Model;
 using System.Runtime.CompilerServices;
+using Mango.GUI;
 
 namespace Mango
 {
@@ -49,7 +51,7 @@ namespace Mango
             base.OnStartup(e);
             if (!IsNet45OrNewer())
             {
-                Mango.Core.WrongNet window = new Core.WrongNet();
+                var window = new Core.WrongNet();
                 window.Show();
             }
             else
@@ -62,7 +64,7 @@ namespace Mango
         public void LoadMainWindow()
         {
             MangaList.Load();
-            Window = new Mango.MainWindow();
+            Window = new MainWindow();
             Window.Show();
         }
 

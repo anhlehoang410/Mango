@@ -51,8 +51,22 @@ namespace Mango.Core.GUI
             }
             set
             {
-                SetDB(value);
+                SetDb(value);
             }
+        }
+
+        public bool IsDownloading
+        {
+            get { return DownloadBar.Visibility == Visibility.Visible; }
+            set
+            {
+                SetDownloading(value);
+            }
+        }
+
+        public new double Height
+        {
+            get { return MainGrid.Height; }
         }
 
         public MangaBox()
@@ -76,11 +90,28 @@ namespace Mango.Core.GUI
             }));
         }
 
-        private void SetDB(string text)
+        private void SetDb(string text)
         {
             Dispatcher.BeginInvoke(new Action(delegate
             {
                 dbLabel.Content = text;
+            }));
+        }
+
+        private void SetDownloading(bool value)
+        {
+            Dispatcher.BeginInvoke(new Action(delegate
+            {
+                if (value)
+                {
+                    DownloadBar.Visibility = Visibility.Visible;
+                    MainGrid.Height = 190;
+                }
+                else
+                {
+                    DownloadBar.Visibility = Visibility.Collapsed;
+                    MainGrid.Height = 180;
+                }
             }));
         }
     }

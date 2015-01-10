@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using Mango.Core.Model;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Net;
-using System.IO;
 
 
 namespace Mango.Core.Database.Impl
@@ -86,22 +83,49 @@ namespace Mango.Core.Database.Impl
 
         private int NextType()
         {
+            //First check local
+            if (MangaReaderWriter.MangaFileExists(this))
+            {
+                if (MangaReaderWriter.GetMangaPage(this, 0, CurrentChapter, CurrentPage + 1).Length == 0)
+                {
+                    if (MangaReaderWriter.GetPageCountForChapter(this, 0, (CurrentChapter + 1)) > 0)
+                        return 2;
+                    if (MangaReaderWriter.GetChapterCountForVolume(this, CurrentVolume + 1) > 0)
+                        return 3;
+                }
+                else return 1; //Go to next page
+            }
+
+            //Now check online
             if (DoesExist(volume, chapter, page + 1))
                 return 1;
-            else if (DoesExist(volume, chapter + 1, 1))
+            if (DoesExist(volume, chapter + 1, 1))
                 return 2;
-            else if (UsesVolumes && DoesExist(volume + 1, chapter + 1, 1))
+            if (UsesVolumes && DoesExist(volume + 1, chapter + 1, 1))
                 return 3;
             return 0;
         }
 
         private int PreviousType()
         {
+            //First check local
+            if (MangaReaderWriter.MangaFileExists(this))
+            {
+                if (MangaReaderWriter.GetMangaPage(this, 0, CurrentChapter, CurrentPage - 1).Length == 0)
+                {
+                    if (MangaReaderWriter.GetPageCountForChapter(this, 0, (CurrentChapter - 1)) > 0)
+                        return 2;
+                    if (MangaReaderWriter.GetChapterCountForVolume(this, CurrentVolume - 1) > 0)
+                        return 3;
+                }
+                else return 1; //Go to next page
+            }
+
             if (DoesExist(volume, chapter, page - 1))
                 return 1;
-            else if (DoesExist(volume, chapter - 1, 1))
+            if (DoesExist(volume, chapter - 1, 1))
                 return 2;
-            else if (DoesExist(volume - 1, chapter - 1, 1))
+            if (DoesExist(volume - 1, chapter - 1, 1))
                 return 3;
             return 0;
         }
@@ -284,12 +308,11 @@ namespace Mango.Core.Database.Impl
                 {
                     using (WebClient client = new WebClient())
                     {
-                        if (!forceWeb && (App.CachePages || (IsDownloaded && !File.Exists("mangas/" + MakeValidFileName(Title) + "/" + CurrentChapter + "-" + CurrentPage))))
+                        if (!forceWeb && (App.CachePages || (IsDownloaded && MangaReaderWriter.GetMangaPage(this, CurrentVolume, CurrentChapter, CurrentPage).Length == 0)))
                         {
                             if (!Directory.Exists("mangas"))
                                 Directory.CreateDirectory("mangas");
-                            if (!Directory.Exists("mangas/" + MakeValidFileName(Title)))
-                                Directory.CreateDirectory("mangas/" + MakeValidFileName(Title));
+                            MangaReaderWriter.EnsureSaveExists(this);
 
                             client.DownloadFile(url, "mangas/" + MakeValidFileName(Title) + "/" + CurrentChapter + "-" + CurrentPage);
                         }
@@ -307,10 +330,7 @@ namespace Mango.Core.Database.Impl
             img = new BitmapImage();
             img.BeginInit();
             img.CacheOption = BitmapCacheOption.OnLoad;
-            if (!IsDownloaded)
-                img.StreamSource = new MemoryStream(byteData);
-            else
-                img.UriSource = new Uri("mangas/" + MakeValidFileName(Title) + "/" + CurrentChapter + "-" + CurrentPage, UriKind.Relative);
+            img.StreamSource = !IsDownloaded ? new MemoryStream(byteData) : new MemoryStream(MangaReaderWriter.GetMangaPage(this, CurrentVolume, CurrentChapter, CurrentPage));
             img.EndInit();
             img.Freeze();
         }
@@ -413,7 +433,7 @@ namespace Mango.Core.Database.Impl
 
         public override bool IsDownloaded
         {
-            get { return !(dPage == CurrentPage && dChapter == CurrentChapter && dVolume == CurrentVolume) && File.Exists("mangas/" + MakeValidFileName(Title) + "/" + CurrentVolume + "-" + CurrentChapter + "-" + CurrentPage) && new FileInfo("mangas/" + MakeValidFileName(Title) + "/" + CurrentChapter + "-" + CurrentPage).Length > 0; }
+            get { return !(dPage == CurrentPage && dChapter == CurrentChapter && dVolume == CurrentVolume) && MangaReaderWriter.GetMangaPage(this, CurrentVolume, CurrentChapter, CurrentPage).Length > 0; }
         }
 
         public override bool IsDownloading
@@ -442,8 +462,7 @@ namespace Mango.Core.Database.Impl
             cancel = false;
             if (!Directory.Exists("mangas"))
                 Directory.CreateDirectory("mangas");
-            string folder = MakeValidFileName(Title);
-            Directory.CreateDirectory("mangas/" + folder);
+            MangaReaderWriter.EnsureSaveExists(this);
 
             dPage = 0;
             dChapter = 1;
@@ -470,7 +489,7 @@ namespace Mango.Core.Database.Impl
                     dPage = 1;
                 }
 
-                if (File.Exists("mangas/" + folder + "/" + dVolume + "-" + dChapter + "-" + dPage))
+                if (MangaReaderWriter.GetMangaPage(this, dVolume, dChapter, dPage).Length > 0)
                     continue;
 
                 string url = ImageUrlFor(dVolume, dChapter, dPage);
@@ -483,7 +502,8 @@ namespace Mango.Core.Database.Impl
                 {
                     using (WebClient client = new WebClient())
                     {
-                        client.DownloadFile(url, "mangas/" + folder + "/" + dVolume + "-" + dChapter + "-" + dPage);
+                        byte[] data = client.DownloadData(url);
+                        MangaReaderWriter.SaveImageInManga(this, dVolume, dChapter, dPage, data);
                     }
                 }
                 catch
@@ -494,7 +514,7 @@ namespace Mango.Core.Database.Impl
             }
 
             if (!cancel)
-                File.WriteAllBytes("mangas/" + MakeValidFileName(Title) + "/completed.dat", new byte[] { 1 });
+                MangaReaderWriter.MarkCompleted(this);
 
             cancel = false;
             download = false;
@@ -502,7 +522,7 @@ namespace Mango.Core.Database.Impl
 
         public override bool IsDownloadComplete
         {
-            get { return File.Exists("mangas/" + MakeValidFileName(Title) + "/completed.dat"); }
+            get { return MangaReaderWriter.IsCompleted(this); }
         }
 
         public override IMangaDatabase DatabaseParent
