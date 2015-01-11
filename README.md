@@ -1,7 +1,11 @@
 Mango
 =====
 
-Read your manga in style! 
+Read your manga in style!
+
+![search](http://i.imgur.com/1MjQoD9.jpg)
+
+![reader](http://i.imgur.com/4fJWstB.png)
 
 #Features
 
