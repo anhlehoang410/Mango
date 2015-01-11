@@ -91,6 +91,8 @@
             <Grid Name="PageContent">
             </Grid>
         </ScrollViewer>
-        <Controls:ToggleSwitch Header="Download and Save" Name="DownloadSetting" OnLabel="Yes" OffLabel="No" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="150" Foreground="White" Click="downloadSetting_Click"/>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#26000000">
+            <Controls:ToggleSwitch Header="Download and Save" Name="DownloadSetting" OnLabel="Yes" OffLabel="No" Margin="10" Width="150" Foreground="White" Click="downloadSetting_Click"/>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>

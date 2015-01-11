@@ -105,63 +105,23 @@ namespace Mango.GUI
             return title;
         }
 
+        private static object prepare_lock = new object();
         private void Setup()
         {
-            manga.PrepareDisplay();
-            Dispatcher.Invoke(new Action(delegate
+            lock (prepare_lock)
             {
-                PageContent.Children.Clear(); //In case it didn't get cleared..?
-                manga.Display(PageContent);
-                Scroller.ScrollToVerticalOffset(0);
-                Scroller.ScrollToHorizontalOffset(0);
-                this.Title = GetTitle();
-                //PageContent.Visibility = System.Windows.Visibility.Visible; dont hide the view
-                Loader.Visibility = System.Windows.Visibility.Hidden;
-            }));
-
-            /*try
-            {
-                if (manga.HasNext())
+                manga.PrepareDisplay();
+                Dispatcher.Invoke(new Action(delegate
                 {
-                    Dispatcher.Invoke(new Action(delegate
-                    {
-                        if (!this.IsVisible)
-                            return;
-                        NextBtn.Content = "Next";
-                        NextBtn.IsEnabled = true;
-                    }));
-                }
-                else
-                {
-                    Dispatcher.Invoke(new Action(delegate
-                    {
-                        if (!this.IsVisible)
-                            return;
-                        NextBtn.Content = "No Next";
-                    }));
-                }
-
-                if (manga.HasPrevious())
-                {
-                    Dispatcher.Invoke(new Action(delegate
-                    {
-                        if (!this.IsVisible)
-                            return;
-                        PreviousBtn.Content = "Previous";
-                        PreviousBtn.IsEnabled = true;
-                    }));
-                }
-                else
-                {
-                    Dispatcher.Invoke(new Action(delegate
-                    {
-                        if (!this.IsVisible)
-                            return;
-                        PreviousBtn.Content = "No Previous";
-                    }));
-                }
+                    PageContent.Children.Clear(); //In case it didn't get cleared..?
+                    manga.Display(PageContent);
+                    Scroller.ScrollToVerticalOffset(0);
+                    Scroller.ScrollToHorizontalOffset(0);
+                    this.Title = GetTitle();
+                    //PageContent.Visibility = System.Windows.Visibility.Visible; dont hide the view
+                    Loader.Visibility = System.Windows.Visibility.Hidden;
+                }));
             }
-            catch {  }*/
         }
 
         private async void Next()
@@ -171,11 +131,6 @@ namespace Mango.GUI
             await result;
             if (result.Result)
             {
-                //PageContent.Visibility = Visibility.Hidden; dont hide the view
-                //NextBtn.IsEnabled = false;
-                //PreviousBtn.IsEnabled = false;
-                //NextBtn.Content = "Loading..";
-                //PreviousBtn.Content = "Loading..";
                 new Thread(new ThreadStart(Setup)).Start();
             }
             else
@@ -191,11 +146,6 @@ namespace Mango.GUI
             await result;
             if (result.Result)
             {
-                //PageContent.Visibility = System.Windows.Visibility.Hidden; dont hide the view
-                //NextBtn.IsEnabled = false;
-                //PreviousBtn.IsEnabled = false;
-                //NextBtn.Content = "Loading..";
-                //PreviousBtn.Content = "Loading..";
                 new Thread(new ThreadStart(Setup)).Start();
             }
             else
