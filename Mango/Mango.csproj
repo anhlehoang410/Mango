@@ -37,8 +37,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
@@ -187,6 +186,7 @@
     <Resource Include="Resources\Youhavegottobesquiddingme.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
     <Content Include="updater.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

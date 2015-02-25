@@ -111,7 +111,7 @@ namespace Mango.GUI
             lock (prepare_lock)
             {
                 manga.PrepareDisplay();
-                Dispatcher.Invoke(new Action(delegate
+                Dispatcher.Invoke(delegate
                 {
                     PageContent.Children.Clear(); //In case it didn't get cleared..?
                     manga.Display(PageContent);
@@ -120,7 +120,7 @@ namespace Mango.GUI
                     this.Title = GetTitle();
                     //PageContent.Visibility = System.Windows.Visibility.Visible; dont hide the view
                     Loader.Visibility = System.Windows.Visibility.Hidden;
-                }));
+                });
             }
         }
 
@@ -131,7 +131,7 @@ namespace Mango.GUI
             await result;
             if (result.Result)
             {
-                new Thread(new ThreadStart(Setup)).Start();
+                new Thread(Setup).Start();
             }
             else
             {
@@ -146,7 +146,7 @@ namespace Mango.GUI
             await result;
             if (result.Result)
             {
-                new Thread(new ThreadStart(Setup)).Start();
+                new Thread(Setup).Start();
             }
             else
             {

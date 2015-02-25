@@ -10,7 +10,7 @@
                 <Label Name="dbLabel" Content="MangaReader" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontStretch="3" />
             </Grid>
             <Grid Width="225" Height="31" VerticalAlignment="Bottom" Background="#6e1d1d1d" Grid.ColumnSpan="2" Margin="15,0">
-                <Label Name="Title" Content="Poop" HorizontalAlignment="Center" Background="#00FFFFFF" Foreground="White" VerticalAlignment="Center" FontSize="16" FontStretch="3"/>
+                <Label Name="Title" Content="TitleHere" HorizontalAlignment="Center" Background="#00FFFFFF" Foreground="White" VerticalAlignment="Center" FontSize="16" FontStretch="3"/>
             </Grid>
         </Grid>
         <Controls:MetroProgressBar Name="DownloadBar" VerticalAlignment="Bottom" Height="5" IsIndeterminate="True" Background="#001D1D00" Visibility="Visible" />
