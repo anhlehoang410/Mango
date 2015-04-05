@@ -2,9 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="MangaBox" Height="302.932" Width="333.271" Background="#00FFFFFF">
-    <Grid Name="MainGrid" Width="255" Height="190">
-        <Grid Height="180" VerticalAlignment="Top">
+        Title="MangaBox" Width="268" Height="413" Background="#00FFFFFF">
+    <Grid Name="MainGrid" Width="268" Height="380">
+        <Grid.Effect>
+            <DropShadowEffect Direction="270" Opacity="0.2" ShadowDepth="3" />
+        </Grid.Effect>
+        <Border Background="White" />
+        <Grid Height="378" VerticalAlignment="Top">
             <Image Name="Cover" Stretch="UniformToFill" Margin="0 -5 0 0"/>
             <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Background="#2e1d1d1d" Margin="3">
                 <Label Name="dbLabel" Content="MangaReader" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontStretch="3" />

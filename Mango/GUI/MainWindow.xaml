@@ -41,8 +41,7 @@
                         </Grid.Effect>
                         <Border Background="White" />
                     </Grid>
-                    <Grid Name="Content" Background="#F9F9F9" Height="510">
-
+                    <Grid Name="Content" Background="#F9F9F9" Height="500">
                     </Grid>
                 </StackPanel>
             </TabItem>
@@ -56,11 +55,11 @@
                         <TextBox Height="30" HorizontalAlignment="Left" Margin="4" Width="200" Name="SearchBox" />
                         <Button Height="30" Name="SearchBtn" IsDefault="True" Width="80" Content="Search" Margin="209,4,0,4" HorizontalAlignment="Left" Click="SearchBtn_Click" />
                     </Grid>
-                    <Grid Background="#F9F9F9">
+                    <Grid Background="#F9F9F9" Height="460">
                         <Controls:ProgressRing Canvas.ZIndex="3" Name="Loader" IsActive="True" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <ScrollViewer Name="ScrollView" Background="#F9F9F9" VerticalAlignment="Bottom" Height="462" Margin="0,0,0,-4">
-                            <UniformGrid  Name="Tiles" Columns="4">
-
+                        <ScrollViewer Name="ScrollView" Background="#F9F9F9" Height="462" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Padding="10">
+                            <UniformGrid Name="Tiles" Rows="1">
+                                
                             </UniformGrid>
                         </ScrollViewer>
                     </Grid>

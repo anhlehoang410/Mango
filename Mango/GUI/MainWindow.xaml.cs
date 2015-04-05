@@ -39,7 +39,6 @@ namespace Mango.GUI
             Loader.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        UniformGrid grid;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (MangaList.List.Count == 0)
@@ -48,11 +47,19 @@ namespace Mango.GUI
             }
             else
             {
-                grid = new UniformGrid();
-                Content.Children.Add(grid);
+                var scrollViewer = new ScrollViewer();
+                scrollViewer.Background = new SolidColorBrush(Color.FromRgb(249,249,249));
+                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                scrollViewer.Padding = new Thickness(10);
+                scrollViewer.Height = 502;
+                var grid = new UniformGrid();
+                grid.Rows = 1;
+                scrollViewer.Content = grid;
+                Content.Children.Add(scrollViewer);
                 foreach (Manga m in MangaList.List)
                 {
-                    AddMangaTile(m);
+                    AddMangaTile(m, grid);
                 }
                 new Thread(new ThreadStart(delegate
                 {
@@ -70,18 +77,16 @@ namespace Mango.GUI
             }
         }
 
-        private void AddMangaTile(Manga m)
+        private void AddMangaTile(Manga m, UniformGrid parentGrid)
         {
             MangaBox box = new MangaBox();
             box.MangaTitle = m.Title;
             box.DatabaseText = (m.DatabaseParent == null ? "Local" : m.DatabaseParent.Name);
-            box.IsDownloading = m.IsDownloading;
 
             Grid grid = FragmentHelper.ExtractUI<Grid>(box);
             Tile tile = new Tile();
-            tile.Width = 225;
-            tile.Height = box.Height;
-            tile.Background = grid.Background;
+            tile.Width = grid.Width;
+            tile.Height = grid.Height;
             tile.Content = grid;
             tile.Click += delegate
             {
@@ -89,7 +94,7 @@ namespace Mango.GUI
                 read.Show();
                 this.Hide();
             };
-            this.grid.Children.Add(tile);
+            parentGrid.Children.Add(tile);
 
             Request request = new Request();
             request.manga = m;
@@ -140,8 +145,8 @@ namespace Mango.GUI
 
             Grid grid = FragmentHelper.ExtractUI<Grid>(box);
             Tile tile = new Tile();
-            tile.Width = 225;
-            tile.Height = 180;
+            tile.Width = grid.Width;
+            tile.Height = grid.Height;
             tile.Content = grid;
             tile.Click += delegate
             {
