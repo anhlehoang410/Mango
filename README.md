@@ -3,9 +3,9 @@ Mango
 
 Read your manga in style!
 
-![search](http://i.imgur.com/1MjQoD9.jpg)
+![search](http://i.imgur.com/jvjms8z.png)
 
-![reader](http://i.imgur.com/4fJWstB.png)
+![reader](http://i.imgur.com/s3yfRRZ.png)
 
 #Features
 
