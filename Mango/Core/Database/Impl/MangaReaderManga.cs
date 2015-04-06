@@ -387,7 +387,7 @@ namespace Mango.Core.Database.Impl
                 string data;
                 using (WebClient client = new WebClient())
                 {
-                    string temp = "http://www.mangareader.net/" + Title.ToLower().Replace(":", "").Replace("&", "").Replace(' ', '-') + "/" + chapter + "/" + page;
+                    string temp = "http://www.mangareader.net/" + Title.ToLower().Replace(":", "").Replace("&", "").Replace(' ', '-').Replace("!", "") + "/" + chapter + "/" + page;
                     data = client.DownloadString(temp);
                 }
                 string[] lines = data.Split('\n');

@@ -12,6 +12,10 @@ namespace Mango.Core.Database.Impl
 {
     public class MangaHereManga : Manga
     {
+        public string UrlTitle
+        {
+            get { return Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_').Replace("!", ""); }
+        }
         private const string Mangaurl = "http://www.mangahere.com/manga/";
 
         private int page = 1;
@@ -30,15 +34,15 @@ namespace Mango.Core.Database.Impl
                 string vstr = "v" + (volume < 10 ? "0" + volume : "" + volume);
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/" + page + ".html";
-                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + UrlTitle + "/" + vstr + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + UrlTitle + "/" + vstr + "/" + cstr + "/";
             }
             else
             {
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/" + page + ".html";
-                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + UrlTitle + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + UrlTitle + "/" + cstr + "/";
             }
 
             string result;
@@ -204,15 +208,15 @@ namespace Mango.Core.Database.Impl
                 string vstr = "v" + (volume < 10 ? "0" + volume : "" + volume);
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/" + page + ".html";
-                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + vstr + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + UrlTitle + "/" + vstr + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + UrlTitle + "/" + vstr + "/" + cstr + "/";
             }
             else
             {
                 string cstr = "c" + (chapter < 100 && chapter >= 10 ? "0" + chapter : (chapter < 10 ? "00" + chapter : "" + chapter));
 
-                if (page != 1) url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/" + page + ".html";
-                else url = Mangaurl + Title.ToLower().Replace(" - ", " ").Replace("-", "").Replace(' ', '_') + "/" + cstr + "/";
+                if (page != 1) url = Mangaurl + UrlTitle + "/" + cstr + "/" + page + ".html";
+                else url = Mangaurl + UrlTitle + "/" + cstr + "/";
             }
 
             string result;
